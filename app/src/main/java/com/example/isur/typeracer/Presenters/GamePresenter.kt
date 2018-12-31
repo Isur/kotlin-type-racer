@@ -10,4 +10,8 @@ class GamePresenter(val view: IGameBoard, val interactor: IGameInteractor){
     fun getWords(): Array<String>{
         return interactor.getWords()
     }
+
+    fun postScore(nickname: String, score: Int) {
+        interactor.postScore(nickname, score)
+    }
 }

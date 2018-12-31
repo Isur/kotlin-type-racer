@@ -14,6 +14,6 @@ class GameInteractor : IGameInteractor {
     }
 
     override fun postScore(nickname: String, score: Int) {
-        TODO("not implemented")
+        API.postScore(nickname, score)
     }
 }
