@@ -43,7 +43,7 @@ class ScoreFragment : Fragment(), IScoreBoard {
                     else -> GridLayoutManager(context, columnCount)
                 }
 
-                adapter = ScoreRecyclerViewAdapter(presenter.getScores().SCORES, listener)
+                adapter = ScoreRecyclerViewAdapter(presenter.getScores(7), listener)
             }
         }
         return view

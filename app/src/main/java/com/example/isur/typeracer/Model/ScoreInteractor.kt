@@ -7,8 +7,8 @@ import com.example.isur.typeracer.Model.Repository.MockAPI
 
 class ScoreInteractor:IScoreInteractor{
     val API = MockAPI
-    override fun getScores():ScoreList {
-        return API.getScores()
+    override fun getScores(limit: Int): List<ScoreList.Score> {
+        return API.getScores().getSorted(limit)
     }
 
 }

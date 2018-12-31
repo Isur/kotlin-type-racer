@@ -6,6 +6,10 @@ import com.example.isur.typeracer.Model.Interface.IScoreList
 class ScoreList:IScoreList {
     override val SCORES: MutableList<Score> = ArrayList()
 
+    override fun getSorted(limit: Int): List<ScoreList.Score> {
+        return SCORES.sortedByDescending { it.score }.take(limit)
+    }
+
     override fun addScore(score: Score){
         SCORES.add(score)
     }

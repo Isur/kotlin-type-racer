@@ -5,4 +5,5 @@ import com.example.isur.typeracer.Model.DataModels.ScoreList
 interface IScoreList {
     val SCORES: MutableList<ScoreList.Score>
     fun addScore(score: ScoreList.Score)
+    fun getSorted(limit: Int): List<ScoreList.Score>
 }
