@@ -1,5 +1,6 @@
 package com.example.isur.typeracer.Views.Fragments
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.os.Handler
 import com.example.isur.typeracer.Model.GameInteractor
 import com.example.isur.typeracer.Presenters.GamePresenter
 
@@ -61,6 +63,12 @@ class GameFragment : Fragment(), IGameBoard {
         }
         val b = dialogBuilder.create()
         b.show()
+        b.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
+        b.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = false
+        Handler().postDelayed({
+            b.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
+            b.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
+        }, 1000)
     }
 
     override fun onAttach(context: Context) {
