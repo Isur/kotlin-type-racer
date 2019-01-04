@@ -1,10 +1,9 @@
 package com.example.isur.typeracer.Views
 
-import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.example.isur.typeracer.Model.DataModels.ScoreList
@@ -27,11 +26,13 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     private lateinit var aboutFragment: AboutFragment
     private lateinit var menuFragment: MenuFragment
 
-    override fun onHelpFragmentInteraction() {
-    }
+    override fun onHelpFragmentInteraction() {}
 
-    override fun onAboutFragmentInteraction() {
-    }
+    override fun onAboutFragmentInteraction() {}
+
+    override fun onGameFragmentInteraction() {}
+
+    override fun onListFragmentInteraction(item: ScoreList.Score?) {}
 
     override fun onMenuFragmentInteraction(s: VIEWS) {
         when (s) {
@@ -44,22 +45,15 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         }
     }
 
-    override fun onListFragmentInteraction(item: ScoreList.Score?) {
-    }
-
-    override fun onGameFragmentInteraction() {
-
-    }
-
     override fun exitGame() {
         exitProcess(-1)
     }
 
-    override fun changeFragment(frag: Fragment) {
+    override fun changeFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(container.id, frag)
-            .addToBackStack(frag.toString())
+            .replace(container.id, fragment)
+            .addToBackStack(fragment.toString())
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
@@ -81,17 +75,32 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun askForPermission() {
+        TODO("Not implemented - ask for permission INTERNET")
+    }
+
+    override fun checkPermission(): Boolean {
+        TODO("Not implemented - check for permission INTERNET")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        TODO("Uncomment when implemented")
+//        if(!checkPermission()){
+//           askForPermission()
+//        }
         setContentView(R.layout.activity_main)
 
+//        if(checkPermission()){
         gameFragment = GameFragment.newInstance()
         scoreFragment = ScoreFragment.newInstance(1)
         helpFragment = HelpFragment.newInstance()
         aboutFragment = AboutFragment.newInstance()
         menuFragment = MenuFragment.newInstance()
-
         changeFragment(menuFragment)
+//        } else {
+//        // TODO("If there is no permission granted -> Show info about permission required.")
+//        }
     }
 
 }

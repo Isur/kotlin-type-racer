@@ -12,12 +12,6 @@ import com.example.isur.typeracer.R
 class HelpFragment : Fragment() {
     private var listenerHelp: OnHelpFragmentInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,10 +41,6 @@ class HelpFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance() =
-            HelpFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
+        fun newInstance() = HelpFragment()
     }
 }

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">TypeRacer</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: "Replace this text"-->
     <string name="about_text">
         This is application created by…
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis mi ac facilisis cursus. Ut dapibus erat nec
@@ -14,6 +14,7 @@
         tristique dolor, id consectetur nunc magna non erat. Sed ac felis nec lorem fermentum congue. Ut in magna et sem
         venenatis tempor. Ut aliquam maximus nisi.
     </string>
+    <!-- TODO: "Replace this text"-->
     <string name="help_text">
         Click start to play…
         In commodo tincidunt aliquet. Nam massa ex, maximus at diam quis, consequat sollicitudin sapien. Curabitur id

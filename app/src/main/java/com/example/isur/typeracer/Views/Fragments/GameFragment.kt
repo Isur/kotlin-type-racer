@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.os.Handler
+import android.widget.TextView
 import com.example.isur.typeracer.Model.GameInteractor
 import com.example.isur.typeracer.Presenters.GamePresenter
 
@@ -20,30 +21,30 @@ import kotlinx.android.synthetic.main.fragment_game.view.*
 class GameFragment : Fragment(), IGameBoard {
     private var listenerGame: OnGameFragmentInteractionListener? = null
     lateinit var presenter: GamePresenter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+    override lateinit var wordInput: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_game, container, false)
+        wordInput = view.wordTextView
         presenter = GamePresenter(this, GameInteractor())
-        val word = presenter.getWord()
-        view.wordTextView.text = word
+        showNextWord()
         view.wordInput.requestFocus()
 
+        // TODO("Remove this button and listener when game will be available")
         view.tempButton.setOnClickListener {
-            showNewNameDialog()
+            showSubmitDialog()
         }
-
         return view
     }
 
-    private fun showNewNameDialog() {
+    override fun showNextWord() {
+        presenter.getWord()
+    }
+
+    override fun showSubmitDialog() {
         val dialogBuilder = AlertDialog.Builder(this.view!!.context)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.custom_dialog, null)
@@ -52,22 +53,23 @@ class GameFragment : Fragment(), IGameBoard {
         val editText = dialogView.editTextName
 
         dialogBuilder.run {
+            // TODO("strings to -> res/values/strings")
             setTitle("Your Score: ")
             setMessage("Enter your nickname if you want to submit your score:")
-            setPositiveButton("Submit") { dialog, whichButton ->
-                presenter.postScore(editText.text.toString(), 10)
+            setPositiveButton("Submit") { _, _ ->
+                presenter.postScore(editText.text.toString(), 2137)
             }
-            setNegativeButton("Cancel") { dialog, whichButton ->
+            setNegativeButton("Cancel") { dialog, _ ->
                 dialog.cancel()
             }
         }
-        val b = dialogBuilder.create()
-        b.show()
-        b.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
-        b.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = false
+        val dialog = dialogBuilder.create()
+        dialog.show()
+        dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
+        dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = false
         Handler().postDelayed({
-            b.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
-            b.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
+            dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
+            dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
         }, 1000)
     }
 
@@ -90,13 +92,7 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance() =
-            GameFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
+        fun newInstance() = GameFragment()
     }
 }

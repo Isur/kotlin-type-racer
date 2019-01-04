@@ -1,5 +1,9 @@
 package com.example.isur.typeracer.Views.Interface
 
-interface IGameBoard {
+import android.widget.TextView
 
+interface IGameBoard {
+    var wordInput: TextView
+    fun showNextWord()
+    fun showSubmitDialog()
 }

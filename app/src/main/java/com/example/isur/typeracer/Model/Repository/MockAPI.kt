@@ -5,15 +5,24 @@ import com.example.isur.typeracer.Model.DataModels.ScoreList
 import com.example.isur.typeracer.Model.Interface.IAPI
 
 object MockAPI: IAPI {
+    override fun getScores(): String {
+        // just for interface
+        return ""
+    }
+
+    override fun postScore(jsonString: String) {
+        // just for interface
+    }
+
     override fun getWord(): String {
         return "randomWORDtest"
     }
 
-    override fun getWords(): Array<String>{
-        return arrayOf("rand1", "rand2", "rand3","rand4", "rand5")
+    override fun getWords(): String {
+        return "[\"word1\", \"word2\", \"word3\", \"word4\", \"word5\"]"
     }
 
-    override fun getScores():ScoreList {
+    fun getScoresMock(): ScoreList {
         val scores = MockData.scoreList
         if (scores.SCORES.size == 0) {
             for (i in 1..10) {
@@ -25,7 +34,7 @@ object MockAPI: IAPI {
         return scores
     }
 
-    override fun postScore(nickname: String, score: Int) {
+    fun postScore(nickname: String, score: Int) {
         MockData.scoreList.addScore(ScoreList.Score(score, nickname))
     }
 }

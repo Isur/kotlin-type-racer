@@ -13,12 +13,6 @@ class AboutFragment : Fragment() {
 
     private var listenerAbout: OnAboutFragmentInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,10 +41,6 @@ class AboutFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance() =
-            AboutFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
+        fun newInstance() = AboutFragment()
     }
 }
