@@ -28,13 +28,13 @@ object MockAPI: IAPI {
             for (i in 1..10) {
                 val nickName = "player$i"
                 val score = i * 10
-                scores.addScore(ScoreList.Score(score, nickName))
+                scores.addScore(ScoreList.Score(nickName,score))
             }
         }
         return scores
     }
 
     fun postScore(nickname: String, score: Int) {
-        MockData.scoreList.addScore(ScoreList.Score(score, nickname))
+        MockData.scoreList.addScore(ScoreList.Score(nickname,score))
     }
 }

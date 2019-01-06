@@ -1,8 +1,12 @@
 package com.example.isur.typeracer.Views
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -76,19 +80,27 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     }
 
     override fun askForPermission() {
-        TODO("Not implemented - ask for permission INTERNET")
+      //  TODO("Not implemented - ask for permission INTERNET")
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.INTERNET)) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.INTERNET),
+                1
+            )
+        }
     }
 
     override fun checkPermission(): Boolean {
-        TODO("Not implemented - check for permission INTERNET")
+       return (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+             != PackageManager.PERMISSION_GRANTED)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        TODO("Uncomment when implemented")
-//        if(!checkPermission()){
-//           askForPermission()
-//        }
+        if(!checkPermission()){
+           askForPermission()
+        }
         setContentView(R.layout.activity_main)
 
 //        if(checkPermission()){
