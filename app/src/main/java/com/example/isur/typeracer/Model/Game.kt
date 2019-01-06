@@ -10,29 +10,29 @@ import kotlin.random.Random
 class Game(override var time: Int, context: IGameBoard) : IGame {
     private var listenerGame: GameListener = context
     override var words: MutableList<String> = mutableListOf()
-
-    init {
-        getWords()
-    }
-
+    override var points: Int = 100 // TODO("Change this to 0 when rest of class will be implemented")
+    override var timerRunning = false
+    override val handler = Handler()
+    override val gameInteractor = GameInteractor()
+    // OBSERVABLE:
     override var currentWord: String by Delegates.observable("") { _, _, _ ->
         listenerGame.listenerSetNewWord(currentWord)
     }
     override var typingWord: String by Delegates.observable("") { _, _, _ ->
-        if (true) { // TODO("if(compareWords()) when implemented")
+        if (compareWords()) {
             incrementPoints()
             popWord(currentWord)
             currentWord = words[0]
             listenerGame.listenerClearInput()
         }
     }
-    override var points: Int = 100 // TODO("Change this to 0 when rest of class will be implemented")
-    override var timerRunning = false
     private var timeText: String by Delegates.observable(time.toString()) { _, _, newValue ->
         listenerGame.listenerSetTime(newValue)
     }
 
-    override val handler = Handler()
+    init {
+        getWords()
+    }
 
     override fun startGame() {
         timerRunning = true
@@ -44,7 +44,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun compareWords(): Boolean {
-        TODO("Compare typingWord with currentWord")
+        return typingWord.length > 4 // TODO("Compare typingWord with currentWord")
     }
 
     override fun incrementPoints() {
@@ -52,15 +52,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun getWords() {
-        words.addAll(
-            arrayListOf(
-                Random.nextInt(1, 10).toString(),
-                Random.nextInt(1, 10).toString(),
-                Random.nextInt(1, 10).toString(), Random.nextInt(1, 10).toString(),
-                Random.nextInt(1, 10).toString(), Random.nextInt(1, 10).toString()
-            )
-        )
-        //TODO("Get words from api")
+        words.addAll(gameInteractor.getWords())
     }
 
     private fun popWord(word: String) {

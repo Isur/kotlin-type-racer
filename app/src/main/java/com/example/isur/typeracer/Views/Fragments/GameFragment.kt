@@ -23,6 +23,13 @@ import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
 
 class GameFragment : Fragment(), IGameBoard {
+    private var listenerGame: OnGameFragmentInteractionListener? = null
+    lateinit var presenter: GamePresenter
+    override lateinit var wordTextView: TextView
+    override lateinit var wordInput: EditText
+    override lateinit var timer: TextView
+    override lateinit var game: Game
+
     override fun listenerSetTime(time: String) {
         timer.text = time
     }
@@ -39,22 +46,7 @@ class GameFragment : Fragment(), IGameBoard {
         wordInput.text.clear()
     }
 
-    private var listenerGame: OnGameFragmentInteractionListener? = null
-    lateinit var presenter: GamePresenter
-    override lateinit var wordTextView: TextView
-    override lateinit var wordInput: EditText
-    override lateinit var timer: TextView
-    override lateinit var game: Game
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_game, container, false)
-        wordTextView = view.wordTextView
-        wordInput = view.wordInput
-        timer = view.timeTextView
-        presenter = GamePresenter(this, GameInteractor())
+    private fun init() {
         showNextWord()
         wordInput.requestFocus()
 
@@ -66,15 +58,21 @@ class GameFragment : Fragment(), IGameBoard {
                 }
                 game.typingWord = s.toString()
             }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_game, container, false)
+        wordTextView = view.wordTextView
+        wordInput = view.wordInput
+        timer = view.timeTextView
+        presenter = GamePresenter(this, GameInteractor())
+        init()
         return view
     }
 
