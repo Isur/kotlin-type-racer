@@ -9,7 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import android.widget.TextView
+import com.example.isur.typeracer.Model.Game
 import com.example.isur.typeracer.Model.GameInteractor
 import com.example.isur.typeracer.Presenters.GamePresenter
 
@@ -19,24 +23,58 @@ import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
 
 class GameFragment : Fragment(), IGameBoard {
+    override fun listenerSetTime(time: String) {
+        timer.text = time
+    }
+
+    override fun listenerStopGame() {
+        showSubmitDialog()
+    }
+
+    override fun listenerSetNewWord(word: String) {
+        wordTextView.text = word
+    }
+
+    override fun listenerClearInput() {
+        wordInput.text.clear()
+    }
+
     private var listenerGame: OnGameFragmentInteractionListener? = null
     lateinit var presenter: GamePresenter
-    override lateinit var wordInput: TextView
+    override lateinit var wordTextView: TextView
+    override lateinit var wordInput: EditText
+    override lateinit var timer: TextView
+    override lateinit var game: Game
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_game, container, false)
-        wordInput = view.wordTextView
+        wordTextView = view.wordTextView
+        wordInput = view.wordInput
+        timer = view.timeTextView
         presenter = GamePresenter(this, GameInteractor())
         showNextWord()
-        view.wordInput.requestFocus()
+        wordInput.requestFocus()
 
-        // TODO("Remove this button and listener when game will be available")
-        view.tempButton.setOnClickListener {
-            showSubmitDialog()
-        }
+        wordInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!::game.isInitialized) {
+                    presenter.getGame(60)
+                    game.startGame()
+                }
+                game.typingWord = s.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
         return view
     }
 
@@ -54,10 +92,10 @@ class GameFragment : Fragment(), IGameBoard {
 
         dialogBuilder.run {
             // TODO("strings to -> res/values/strings")
-            setTitle("Your Score: ")
+            setTitle("Your Score: ${game.points} ")
             setMessage("Enter your nickname if you want to submit your score:")
             setPositiveButton("Submit") { _, _ ->
-                presenter.postScore(editText.text.toString(), 2137)
+                presenter.postScore(editText.text.toString(), game.points)
             }
             setNegativeButton("Cancel") { dialog, _ ->
                 dialog.cancel()
