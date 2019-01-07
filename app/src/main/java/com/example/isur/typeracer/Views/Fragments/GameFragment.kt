@@ -47,13 +47,15 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     private fun init() {
+
         showNextWord()
         wordInput.requestFocus()
-
+        if (!::game.isInitialized) {
+            presenter.getGame(60)
+        }
         wordInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (!::game.isInitialized) {
-                    presenter.getGame(60)
+                if(!game.timerRunning) {
                     game.startGame()
                 }
                 game.typingWord = s.toString()
@@ -77,7 +79,7 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     override fun showNextWord() {
-        presenter.getWord()
+        //presenter.getWord()
     }
 
     override fun showSubmitDialog() {
