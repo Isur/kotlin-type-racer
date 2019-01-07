@@ -9,6 +9,5 @@ interface IGameBoard : Game.GameListener {
     var wordInput: EditText
     var timer: TextView
     var game: Game
-    fun showNextWord()
     fun showSubmitDialog()
 }

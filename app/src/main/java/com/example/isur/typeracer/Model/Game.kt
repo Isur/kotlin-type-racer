@@ -22,7 +22,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
         if (compareWords()) {
             incrementPoints()
             popWord(currentWord)
-            currentWord = words[0]
+            changeCurrentWord()
             listenerGame.listenerClearInput()
         }
     }
@@ -32,6 +32,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
 
     init {
         getWords()
+        changeCurrentWord()
     }
 
     override fun startGame() {
@@ -44,7 +45,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun compareWords(): Boolean {
-        return typingWord.length > 4 // TODO("Compare typingWord with currentWord")
+        return typingWord == currentWord
     }
 
     override fun incrementPoints() {
@@ -60,6 +61,10 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
         if (words.size < 3) {
             getWords()
         }
+    }
+
+    private fun changeCurrentWord(){
+        currentWord = words[0]
     }
 
     override fun run() {
