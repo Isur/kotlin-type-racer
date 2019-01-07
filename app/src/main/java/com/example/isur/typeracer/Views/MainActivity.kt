@@ -1,8 +1,12 @@
 package com.example.isur.typeracer.Views
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -75,32 +79,14 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun askForPermission() {
-        TODO("Not implemented - ask for permission INTERNET")
-    }
-
-    override fun checkPermission(): Boolean {
-        TODO("Not implemented - check for permission INTERNET")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        TODO("Uncomment when implemented")
-//        if(!checkPermission()){
-//           askForPermission()
-//        }
         setContentView(R.layout.activity_main)
-
-//        if(checkPermission()){
         gameFragment = GameFragment.newInstance()
         scoreFragment = ScoreFragment.newInstance(1)
         helpFragment = HelpFragment.newInstance()
         aboutFragment = AboutFragment.newInstance()
         menuFragment = MenuFragment.newInstance()
         changeFragment(menuFragment)
-//        } else {
-//        // TODO("If there is no permission granted -> Show info about permission required.")
-//        }
     }
-
 }
