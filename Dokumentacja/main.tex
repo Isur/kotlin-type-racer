@@ -144,13 +144,15 @@ tabsize=4,
 	        \item RecyclerViewAdapter dla listy wyników
 	        \item Model danych
 	        \item ''Dialog'' do przesyłania wyniku
+	        \item Logika gry
 	        \item Dokumentacja
 	    \end{itemize}
 	    \item Jurczyk Dominika \begin{itemize}
 	        \item 
 	    \end{itemize}
 	    \item Fikier Damian \begin{itemize}
-	        \item 
+	        \item Obsługa API
+	        \item Obsługa JSON
 	    \end{itemize}
 	\end{itemize}
 	\clearpage
@@ -196,6 +198,7 @@ tabsize=4,
     	        ]
     	        [.Interface
     	        [IAPI.kt, is file]
+    	        [IGame.kt, is file]
     	        [IGameInteractor.kt, is file]
     	        [IScore.kt, is file]
     	        [IScoreInteractor.kt, is file]
@@ -205,6 +208,7 @@ tabsize=4,
     	        [API.kt, is file]
     	        [MockAPI.kt, is file]
     	        ]
+    	        [Game.kt, is file]
     	        [GameInteractor.kt, is file]
     	        [ScoreInteractor.kt, is file]
     	    ]
@@ -355,12 +359,28 @@ class ScoreList:IScoreList {
 \subsection{API}
 Adres serwera: http://simple-type-racer.herokuapp.com/
 \begin{itemize}
+    \item Test połączenia
+    \begin{itemize}
+        \item URL: /server
+        \item metoda: GET
+        \item parametry url: brak
+        \item odpowiedz: JSON
+        \item przykładowa odpowiedź: \begin{lstlisting}[language=json,firstnumber=1]
+{
+  "connection": true
+}
+\end{lstlisting}
+    \end{itemize}
     \item 1 słowo
     \begin{itemize}
         \item URL: /server/getWord
         \item metoda: GET
         \item parametry url: brak
         \item odpowiedz: STRING
+        \item przykładowa odpowiedź:
+        \begin{lstlisting}[language=json,firstnumber=1]
+"word"
+\end{lstlisting}
     \end{itemize}
     \item 5 słów
     \begin{itemize}
@@ -368,6 +388,9 @@ Adres serwera: http://simple-type-racer.herokuapp.com/
         \item metoda: GET
         \item parametry url: brak
         \item odpowiedz: tablica 5 elementów typu: STRING
+        \begin{lstlisting}[language=json,firstnumber=1]
+["quae","quia","autem","facere","officiis"]
+\end{lstlisting}
     \end{itemize}
     \item zgłaszanie wyniku
     \begin{itemize}
