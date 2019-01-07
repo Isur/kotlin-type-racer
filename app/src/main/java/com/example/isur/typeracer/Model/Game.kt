@@ -10,7 +10,7 @@ import kotlin.random.Random
 class Game(override var time: Int, context: IGameBoard) : IGame {
     private var listenerGame: GameListener = context
     override var words: MutableList<String> = mutableListOf()
-    override var points: Int = 100 // TODO("Change this to 0 when rest of class will be implemented")
+    override var points: Int = 0
     override var timerRunning = false
     override val handler = Handler()
     override val gameInteractor = GameInteractor()
@@ -45,7 +45,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun compareWords(): Boolean {
-        return typingWord.toLowerCase() == currentWord
+        return typingWord.toLowerCase() == currentWord.toLowerCase()
     }
 
     override fun incrementPoints() {
