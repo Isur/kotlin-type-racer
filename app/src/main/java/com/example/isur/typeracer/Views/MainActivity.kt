@@ -79,40 +79,14 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun askForPermission() {
-      //  TODO("Not implemented - ask for permission INTERNET")
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.INTERNET)) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.INTERNET),
-                1
-            )
-        }
-    }
-
-    override fun checkPermission(): Boolean {
-       return (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
-             != PackageManager.PERMISSION_GRANTED)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        TODO("Uncomment when implemented")
-        if(!checkPermission()){
-           askForPermission()
-        }
         setContentView(R.layout.activity_main)
-
-//        if(checkPermission()){
         gameFragment = GameFragment.newInstance()
         scoreFragment = ScoreFragment.newInstance(1)
         helpFragment = HelpFragment.newInstance()
         aboutFragment = AboutFragment.newInstance()
         menuFragment = MenuFragment.newInstance()
         changeFragment(menuFragment)
-//        } else {
-//        // TODO("If there is no permission granted -> Show info about permission required.")
-//        }
     }
-
 }
