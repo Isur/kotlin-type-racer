@@ -45,7 +45,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun compareWords(): Boolean {
-        return typingWord == currentWord
+        return typingWord.toLowerCase() == currentWord
     }
 
     override fun incrementPoints() {
