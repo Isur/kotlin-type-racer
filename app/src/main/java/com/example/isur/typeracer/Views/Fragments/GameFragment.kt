@@ -20,6 +20,7 @@ import com.example.isur.typeracer.Presenters.GamePresenter
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Interface.IGameBoard
 import kotlinx.android.synthetic.main.custom_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
 
 class GameFragment : Fragment(), IGameBoard {
@@ -48,9 +49,11 @@ class GameFragment : Fragment(), IGameBoard {
 
     private fun init() {
         wordInput.requestFocus()
+        val gameTime = 20
         if (!::game.isInitialized) {
-            presenter.getGame(20)
+            presenter.getGame(gameTime)
         }
+        timer.text = gameTime.toString()
         wordInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if(!game.timerRunning) {
