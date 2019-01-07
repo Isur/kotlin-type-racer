@@ -21,7 +21,7 @@ class GameInteractor : IGameInteractor {
         val response = runBlocking (Dispatchers.IO){
             apiService.getWords().await()
         }
-        return arrayOf(response)
+        return response
     }
 
     override fun postScore(nickname: String, score: Int) {

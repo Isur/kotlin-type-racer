@@ -18,7 +18,7 @@ interface TypeRacerApi {
     @GET("getWord")
     fun getWord(): Deferred<String>
     @GET("getWords")
-    fun getWords(): Deferred<String>
+    fun getWords(): Deferred<Array<String>>
     @GET("top10")
     fun getTop10():Deferred<List<ScoreList.Score>>
     @POST("result")
