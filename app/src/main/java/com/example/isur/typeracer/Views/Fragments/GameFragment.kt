@@ -47,8 +47,6 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     private fun init() {
-
-        showNextWord()
         wordInput.requestFocus()
         if (!::game.isInitialized) {
             presenter.getGame(20)
