@@ -37,6 +37,7 @@ class GameFragment : Fragment(), IGameBoard {
 
     override fun listenerStopGame() {
         showSubmitDialog()
+        listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
     }
 
     override fun listenerSetNewWord(word: String) {
@@ -93,7 +94,6 @@ class GameFragment : Fragment(), IGameBoard {
                 listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
             }
             setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
             }
         }
         val dialog = dialogBuilder.create()
