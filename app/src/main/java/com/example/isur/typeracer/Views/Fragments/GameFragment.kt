@@ -19,6 +19,7 @@ import com.example.isur.typeracer.Presenters.GamePresenter
 
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Interface.IGameBoard
+import com.example.isur.typeracer.Views.VIEWS
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
@@ -88,14 +89,14 @@ class GameFragment : Fragment(), IGameBoard {
         val editText = dialogView.editTextName
 
         dialogBuilder.run {
-            // TODO("strings to -> res/values/strings")
-            setTitle("Your Score: ${game.points} ")
-            setMessage("Enter your nickname if you want to submit your score:")
-            setPositiveButton("Submit") { _, _ ->
+            setTitle( getString(R.string.yourScore)+ " ${game.points} ")
+            setMessage(getString(R.string.enterNickname))
+            setPositiveButton(getString(R.string.submit)) { _, _ ->
                 presenter.postScore(editText.text.toString(), game.points)
+                listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
             }
-            setNegativeButton("Cancel") { dialog, _ ->
-                dialog.cancel()
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
             }
         }
         val dialog = dialogBuilder.create()
@@ -123,7 +124,7 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     interface OnGameFragmentInteractionListener {
-        fun onGameFragmentInteraction()
+        fun onGameFragmentInteraction(s: VIEWS)
     }
 
     companion object {
