@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity(), IMainActivity,
 
     override fun onGameFragmentInteraction(s: VIEWS) {
         destroyFragment(gameFragment)
+        gameFragment = GameFragment.newInstance()
         when(s){
             VIEWS.MENU -> changeFragment(menuFragment)
-
             VIEWS.SCORE -> changeFragment(scoreFragment)
         }
     }
