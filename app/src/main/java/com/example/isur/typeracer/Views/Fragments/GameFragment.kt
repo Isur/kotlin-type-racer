@@ -19,6 +19,7 @@ import com.example.isur.typeracer.Presenters.GamePresenter
 
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Interface.IGameBoard
+import com.example.isur.typeracer.Views.VIEWS
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
 
@@ -49,7 +50,7 @@ class GameFragment : Fragment(), IGameBoard {
     private fun init() {
         wordInput.requestFocus()
         if (!::game.isInitialized) {
-            presenter.getGame(20)
+            presenter.getGame(10)
         }
         wordInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -90,9 +91,10 @@ class GameFragment : Fragment(), IGameBoard {
             setMessage("Enter your nickname if you want to submit your score:")
             setPositiveButton("Submit") { _, _ ->
                 presenter.postScore(editText.text.toString(), game.points)
+                listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
             }
             setNegativeButton("Cancel") { dialog, _ ->
-                dialog.cancel()
+                listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
             }
         }
         val dialog = dialogBuilder.create()
@@ -120,7 +122,7 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     interface OnGameFragmentInteractionListener {
-        fun onGameFragmentInteraction()
+        fun onGameFragmentInteraction(s: VIEWS)
     }
 
     companion object {
