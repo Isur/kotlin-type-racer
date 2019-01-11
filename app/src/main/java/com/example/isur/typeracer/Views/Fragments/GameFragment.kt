@@ -86,14 +86,13 @@ class GameFragment : Fragment(), IGameBoard {
         val editText = dialogView.editTextName
 
         dialogBuilder.run {
-            // TODO("strings to -> res/values/strings")
-            setTitle("Your Score: ${game.points} ")
-            setMessage("Enter your nickname if you want to submit your score:")
-            setPositiveButton("Submit") { _, _ ->
+            setTitle( getString(R.string.yourScore)+ " ${game.points} ")
+            setMessage(getString(R.string.enterNickname))
+            setPositiveButton(getString(R.string.submit)) { _, _ ->
                 presenter.postScore(editText.text.toString(), game.points)
                 listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
             }
-            setNegativeButton("Cancel") { dialog, _ ->
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
             }
         }

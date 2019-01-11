@@ -33,4 +33,8 @@
         rhoncus ut neque. Vestibulum vel dictum neque, quis aliquam sapien. Donec porttitor nisl sit amet metus
         consequat ultrices. Aliquam nisl eros, maximus ut diam id, tristique tempor mi.
     </string>
+    <string name="yourScore">Your Score:</string>
+    <string name="enterNickname">Enter your nickname if you want to submit your score:</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
 </resources>
