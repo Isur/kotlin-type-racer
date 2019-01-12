@@ -6,7 +6,7 @@ import android.os.Handler
 import android.support.v7.app.AlertDialog
 
 object NoConnectionDialog {
-    fun showNoConnectionDialog(context: Context,action:()->Unit){
+    fun show(context: Context, action:()->Unit){
         val dialogBuilder = AlertDialog.Builder(context)
 //TODO change to values strings
         dialogBuilder.run {
@@ -18,6 +18,8 @@ object NoConnectionDialog {
 
         }
         val dialog = dialogBuilder.create()
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
         dialog.show()
         dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
 

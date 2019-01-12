@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.fragment_menu.view.*
 
 class MenuFragment : Fragment() {
     private var listenerMenu: OnMenuFragmentInteractionListener? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +34,6 @@ class MenuFragment : Fragment() {
         }
         return view
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnMenuFragmentInteractionListener) {

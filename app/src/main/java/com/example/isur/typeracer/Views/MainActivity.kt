@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     override fun onGameFragmentInteraction(s: VIEWS) {
         destroyFragment(gameFragment)
         gameFragment = GameFragment.newInstance()
-        when(s){
+        when (s) {
             VIEWS.MENU -> changeFragment(menuFragment)
             VIEWS.SCORE -> changeFragment(scoreFragment)
         }
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), IMainActivity,
             .commit()
     }
 
-    override fun destroyFragment(fragment: Fragment){
+    override fun destroyFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .remove(fragment)
@@ -100,25 +100,30 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadingBar.visibility = View.VISIBLE
         gameFragment = GameFragment.newInstance()
         scoreFragment = ScoreFragment.newInstance(1)
         helpFragment = HelpFragment.newInstance()
         aboutFragment = AboutFragment.newInstance()
         menuFragment = MenuFragment.newInstance()
-        changeFragment(menuFragment)
+        val serverOK = ConnectionInfo.checkServerStatus()
+        if (serverOK) {
+            changeFragment(menuFragment)
+            loadingBar.visibility = View.INVISIBLE
+        } else NoConnectionDialog.show(this@MainActivity) { exitGame() }
     }
 
     override fun onResume() {
         super.onResume()
         val intentFilter = IntentFilter(ConnectionInfo.CONNECTION_ACTION)
-        connectionReceiver = object : BroadcastReceiver(){
+        connectionReceiver = object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, p1: Intent?) {
                 ConstLayout.visibility = View.INVISIBLE
-                NoConnectionDialog.showNoConnectionDialog(this@MainActivity) { changeFragment(menuFragment) }
+                NoConnectionDialog.show(this@MainActivity) { restartActivity() }
                 ConstLayout.visibility = View.VISIBLE
             }
         }
-        registerReceiver(connectionReceiver,intentFilter)
+        registerReceiver(connectionReceiver, intentFilter)
     }
 
     override fun onPause() {
@@ -126,6 +131,11 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         unregisterReceiver(connectionReceiver)
     }
 
+    private fun restartActivity() {
+        val i = Intent(this, MainActivity::class.java)
+        startActivity(i)
+        finish()
+    }
 
 
 }
