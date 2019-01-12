@@ -78,13 +78,9 @@ class GameFragment : Fragment(), IGameBoard {
         wordTextView = view.wordTextView
         wordInput = view.wordInput
         timer = view.timeTextView
-        try {
+
         presenter = GamePresenter(this, GameInteractor())
         init()
-
-        }catch (ex:NoConnectivityException){
-            ConnectionInfo.sendNoConnection(context!!.applicationContext)
-        }
         return view
     }
 
@@ -95,7 +91,6 @@ class GameFragment : Fragment(), IGameBoard {
         dialogBuilder.setView(dialogView)
 
         val editText = dialogView.editTextName
-        try {
             dialogBuilder.run {
                 setTitle( getString(R.string.yourScore)+ " ${game.points} ")
                 setMessage(getString(R.string.enterNickname))
@@ -115,10 +110,6 @@ class GameFragment : Fragment(), IGameBoard {
                 dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
                 dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
             }, 1000)
-        }catch (ex:NoConnectivityException){
-            ConnectionInfo.sendNoConnection(context!!.applicationContext)
-        }
-
     }
 
     override fun onAttach(context: Context) {

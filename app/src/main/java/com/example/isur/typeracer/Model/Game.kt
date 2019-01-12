@@ -56,12 +56,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun getWords() {
-        try {
         words.addAll(gameInteractor.getWords())
-
-        }catch (ex:NoConnectivityException){
-            ConnectionInfo.sendNoConnection(TypeRacerApplication.applicationContext())
-        }
     }
 
     private fun popWord(word: String) {
