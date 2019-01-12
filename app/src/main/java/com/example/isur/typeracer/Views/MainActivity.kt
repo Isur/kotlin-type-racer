@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.example.isur.typeracer.Model.DataModels.ScoreList
+import com.example.isur.typeracer.Model.Game
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Fragments.*
 import com.example.isur.typeracer.Views.Interface.IMainActivity

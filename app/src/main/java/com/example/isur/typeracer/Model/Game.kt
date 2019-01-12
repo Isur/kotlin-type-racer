@@ -41,6 +41,7 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun stopGame() {
+        timerRunning = false
         listenerGame.listenerStopGame()
     }
 
