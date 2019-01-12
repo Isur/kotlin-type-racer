@@ -1,16 +1,19 @@
 package com.example.isur.typeracer.Views
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.example.isur.typeracer.Model.DataModels.ScoreList
+import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
+import com.example.isur.typeracer.Model.Utils.NoConnectionDialog
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Fragments.*
 import com.example.isur.typeracer.Views.Interface.IMainActivity
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     private lateinit var helpFragment: HelpFragment
     private lateinit var aboutFragment: AboutFragment
     private lateinit var menuFragment: MenuFragment
+    private lateinit var connectionReceiver: BroadcastReceiver
 
     override fun onHelpFragmentInteraction() {}
 
@@ -103,4 +107,25 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         menuFragment = MenuFragment.newInstance()
         changeFragment(menuFragment)
     }
+
+    override fun onResume() {
+        super.onResume()
+        val intentFilter = IntentFilter(ConnectionInfo.CONNECTION_ACTION)
+        connectionReceiver = object : BroadcastReceiver(){
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                ConstLayout.visibility = View.INVISIBLE
+                NoConnectionDialog.showNoConnectionDialog(this@MainActivity) { changeFragment(menuFragment) }
+                ConstLayout.visibility = View.VISIBLE
+            }
+        }
+        registerReceiver(connectionReceiver,intentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(connectionReceiver)
+    }
+
+
+
 }

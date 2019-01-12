@@ -15,6 +15,8 @@ import android.widget.EditText
 import android.widget.TextView
 import com.example.isur.typeracer.Model.Game
 import com.example.isur.typeracer.Model.GameInteractor
+import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
+import com.example.isur.typeracer.Model.Utils.Network.NoConnectivityException
 import com.example.isur.typeracer.Presenters.GamePresenter
 
 import com.example.isur.typeracer.R
@@ -49,6 +51,7 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     private fun init() {
+
         wordInput.requestFocus()
         val gameTime = 20
         if (!::game.isInitialized) {
@@ -75,8 +78,13 @@ class GameFragment : Fragment(), IGameBoard {
         wordTextView = view.wordTextView
         wordInput = view.wordInput
         timer = view.timeTextView
+        try {
         presenter = GamePresenter(this, GameInteractor())
         init()
+
+        }catch (ex:NoConnectivityException){
+            ConnectionInfo.sendNoConnection(context!!.applicationContext)
+        }
         return view
     }
 
@@ -87,26 +95,30 @@ class GameFragment : Fragment(), IGameBoard {
         dialogBuilder.setView(dialogView)
 
         val editText = dialogView.editTextName
-
-        dialogBuilder.run {
-            setTitle( getString(R.string.yourScore)+ " ${game.points} ")
-            setMessage(getString(R.string.enterNickname))
-            setPositiveButton(getString(R.string.submit)) { _, _ ->
-                presenter.postScore(editText.text.toString(), game.points)
-                listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
+        try {
+            dialogBuilder.run {
+                setTitle( getString(R.string.yourScore)+ " ${game.points} ")
+                setMessage(getString(R.string.enterNickname))
+                setPositiveButton(getString(R.string.submit)) { _, _ ->
+                    presenter.postScore(editText.text.toString(), game.points)
+                    listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
+                }
+                setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                    listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
+                }
             }
-            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
-            }
+            val dialog = dialogBuilder.create()
+            dialog.show()
+            dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
+            dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = false
+            Handler().postDelayed({
+                dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
+                dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
+            }, 1000)
+        }catch (ex:NoConnectivityException){
+            ConnectionInfo.sendNoConnection(context!!.applicationContext)
         }
-        val dialog = dialogBuilder.create()
-        dialog.show()
-        dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
-        dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = false
-        Handler().postDelayed({
-            dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
-            dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
-        }, 1000)
+
     }
 
     override fun onAttach(context: Context) {
