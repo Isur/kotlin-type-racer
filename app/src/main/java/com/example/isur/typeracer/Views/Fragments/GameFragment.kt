@@ -2,6 +2,7 @@ package com.example.isur.typeracer.Views.Fragments
 
 import android.app.Dialog
 import android.content.Context
+import android.inputmethodservice.KeyboardView
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -23,6 +24,14 @@ import com.example.isur.typeracer.Views.VIEWS
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.support.v4.content.ContextCompat.getSystemService
+import android.view.inputmethod.InputMethodManager
+import android.support.v4.content.ContextCompat.getSystemService
+import android.support.v4.content.ContextCompat.getSystemService
+import android.util.Log
+import android.view.MenuItem
+
 
 class GameFragment : Fragment(), IGameBoard {
     private var listenerGame: OnGameFragmentInteractionListener? = null
@@ -31,12 +40,14 @@ class GameFragment : Fragment(), IGameBoard {
     override lateinit var wordInput: EditText
     override lateinit var timer: TextView
     override lateinit var game: Game
+    fun isGameInitialized() = ::game.isInitialized
 
     override fun listenerSetTime(time: String) {
         timer.text = time
     }
 
     override fun listenerStopGame() {
+        hideKeyboard(view)
         showSubmitDialog()
         listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
     }
@@ -49,8 +60,22 @@ class GameFragment : Fragment(), IGameBoard {
         wordInput.text.clear()
     }
 
+    fun showKeyboard(view: View?) {
+        if (view!!.requestFocus()) {
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.showSoftInput(view, 0);
+        }
+    }
+
+    fun hideKeyboard(view: View?) {
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+    }
+
     private fun init() {
         wordInput.requestFocus()
+        showKeyboard(wordInput)
         val gameTime = 20
         if (!::game.isInitialized) {
             presenter.getGame(gameTime)

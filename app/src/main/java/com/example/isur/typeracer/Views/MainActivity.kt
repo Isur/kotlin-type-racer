@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.action_back -> {
+                if(gameFragment.isGameInitialized()) gameFragment.game.stopGame()
                 changeFragment(menuFragment)
                 true
             }
