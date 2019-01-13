@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import com.example.isur.typeracer.Model.Game
@@ -37,6 +38,7 @@ class GameFragment : Fragment(), IGameBoard {
 
     override fun listenerStopGame() {
         game.isFinished = false
+        //hideKeyboard(view)
         showSubmitDialog()
     }
 
@@ -48,9 +50,23 @@ class GameFragment : Fragment(), IGameBoard {
         wordInput.text.clear()
     }
 
-    private fun init() {
+    fun showKeyboard(view: View?) {
+        if (view!!.requestFocus()) {
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.showSoftInput(view, 0);
+        }
+    }
 
+    fun hideKeyboard(view: View?) {
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+    }
+
+    private fun init() {
         wordInput.requestFocus()
+        showKeyboard(wordInput)
+
         if (!::game.isInitialized) {
             presenter.getGame(gameTime)
         }
@@ -137,6 +153,7 @@ class GameFragment : Fragment(), IGameBoard {
         super.onResume()
     }
     override fun onPause() {
+        hideKeyboard(view)
         if(::game.isInitialized){
             if(game.timerRunning){
                 game.stopGame()

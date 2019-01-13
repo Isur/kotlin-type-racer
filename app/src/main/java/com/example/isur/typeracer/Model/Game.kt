@@ -3,6 +3,7 @@ package com.example.isur.typeracer.Model
 import android.os.Handler
 import android.util.Log
 import com.example.isur.typeracer.Model.Interface.IGame
+import com.example.isur.typeracer.Views.Fragments.GameFragment
 import com.example.isur.typeracer.Views.Interface.IGameBoard
 import kotlin.properties.Delegates
 
