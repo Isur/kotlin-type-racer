@@ -3,6 +3,9 @@ package com.example.isur.typeracer.Model
 import android.os.Handler
 import android.util.Log
 import com.example.isur.typeracer.Model.Interface.IGame
+import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
+import com.example.isur.typeracer.Model.Utils.Network.NoConnectivityException
+import com.example.isur.typeracer.TypeRacerApplication
 import com.example.isur.typeracer.Views.Interface.IGameBoard
 import kotlin.properties.Delegates
 import kotlin.random.Random

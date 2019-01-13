@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.isur.typeracer.Model.DataModels.ScoreList
 import com.example.isur.typeracer.Model.ScoreInteractor
+import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
+import com.example.isur.typeracer.Model.Utils.Network.NoConnectivityException
 import com.example.isur.typeracer.Presenters.ScorePresenter
 import com.example.isur.typeracer.R
 
@@ -42,8 +44,12 @@ class ScoreFragment : Fragment(), IScoreBoard {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
+                try {
 
                 adapter = ScoreRecyclerViewAdapter(presenter.getScores(7), listener)
+                }catch (ex:NoConnectivityException){
+                    ConnectionInfo.sendNoConnection(context!!.applicationContext)
+                }
             }
         }
         return view

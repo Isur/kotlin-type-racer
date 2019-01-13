@@ -6,14 +6,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.VIEWS
 import kotlinx.android.synthetic.main.fragment_menu.view.*
 
 class MenuFragment : Fragment() {
     private var listenerMenu: OnMenuFragmentInteractionListener? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +34,6 @@ class MenuFragment : Fragment() {
         }
         return view
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnMenuFragmentInteractionListener) {
@@ -50,7 +47,6 @@ class MenuFragment : Fragment() {
         super.onDetach()
         listenerMenu = null
     }
-
     interface OnMenuFragmentInteractionListener {
         fun onMenuFragmentInteraction(s: VIEWS)
     }
