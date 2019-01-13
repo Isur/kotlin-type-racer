@@ -3,27 +3,23 @@ package com.example.isur.typeracer.Views.Fragments
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import com.example.isur.typeracer.Model.Game
 import com.example.isur.typeracer.Model.GameInteractor
-import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
-import com.example.isur.typeracer.Model.Utils.Network.NoConnectivityException
 import com.example.isur.typeracer.Presenters.GamePresenter
-
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Interface.IGameBoard
 import com.example.isur.typeracer.Views.VIEWS
 import kotlinx.android.synthetic.main.custom_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
 
 class GameFragment : Fragment(), IGameBoard {
@@ -33,12 +29,14 @@ class GameFragment : Fragment(), IGameBoard {
     override lateinit var wordInput: EditText
     override lateinit var timer: TextView
     override lateinit var game: Game
+    private val gameTime = 20
 
     override fun listenerSetTime(time: String) {
         timer.text = time
     }
 
     override fun listenerStopGame() {
+        game.isFinished = false
         showSubmitDialog()
     }
 
@@ -53,10 +51,14 @@ class GameFragment : Fragment(), IGameBoard {
     private fun init() {
 
         wordInput.requestFocus()
-        val gameTime = 20
         if (!::game.isInitialized) {
             presenter.getGame(gameTime)
         }
+
+        if(game.timerRunning){
+            game.restart(gameTime)
+        }
+
         timer.text = gameTime.toString()
         wordInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -98,11 +100,12 @@ class GameFragment : Fragment(), IGameBoard {
                     presenter.postScore(editText.text.toString(), game.points)
                     listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
                 }
-                setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                setNegativeButton(getString(R.string.cancel)) { _, _ ->
                     listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
                 }
             }
             val dialog = dialogBuilder.create()
+            dialog.setCanceledOnTouchOutside(false)
             dialog.show()
             dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = false
             dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = false
@@ -124,6 +127,22 @@ class GameFragment : Fragment(), IGameBoard {
     override fun onDetach() {
         super.onDetach()
         listenerGame = null
+    }
+
+    override fun onResume() {
+        if(::game.isInitialized){
+                wordInput.setText("")
+                game.restart(gameTime)
+        }
+        super.onResume()
+    }
+    override fun onPause() {
+        if(::game.isInitialized){
+            if(game.timerRunning){
+                game.stopGame()
+            }
+        }
+        super.onPause()
     }
 
     interface OnGameFragmentInteractionListener {

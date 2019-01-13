@@ -3,18 +3,15 @@ package com.example.isur.typeracer.Model
 import android.os.Handler
 import android.util.Log
 import com.example.isur.typeracer.Model.Interface.IGame
-import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
-import com.example.isur.typeracer.Model.Utils.Network.NoConnectivityException
-import com.example.isur.typeracer.TypeRacerApplication
 import com.example.isur.typeracer.Views.Interface.IGameBoard
 import kotlin.properties.Delegates
-import kotlin.random.Random
 
 class Game(override var time: Int, context: IGameBoard) : IGame {
     private var listenerGame: GameListener = context
     override var words: MutableList<String> = mutableListOf()
     override var points: Int = 0
     override var timerRunning = false
+    override var isFinished = false
     override val handler = Handler()
     override val gameInteractor = GameInteractor()
     // OBSERVABLE:
@@ -39,12 +36,20 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun startGame() {
+        isFinished = false
         timerRunning = true
+        currentWord = currentWord
         run()
     }
 
     override fun stopGame() {
-        listenerGame.listenerStopGame()
+        if(time < 0) return
+        timerRunning = false
+        if (isFinished) {
+            isFinished = false
+            listenerGame.listenerStopGame()
+        }
+        handler.removeCallbacks(this)
     }
 
     override fun compareWords(): Boolean {
@@ -66,23 +71,34 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
         }
     }
 
-    private fun changeCurrentWord(){
+    private fun changeCurrentWord() {
         currentWord = words[0]
     }
 
     override fun run() {
-        if (timerRunning) {
+        if (timerRunning && !isFinished) {
             decrementTime()
             Log.i("GAME", "Game is running with time: $time")
             handler.postDelayed(this, 1000)
         }
     }
 
+    override fun restart(gameTime: Int) {
+        points = 0
+        time = gameTime
+        isFinished = false
+        timerRunning = false
+        timeText = time.toString()
+        stopGame()
+    }
+
+
     private fun decrementTime() {
         time--
         timeText = time.toString()
-        if (time == 0) {
+        if (time <= 0) {
             timerRunning = false
+            isFinished = true
             stopGame()
         }
     }
@@ -93,5 +109,4 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
         fun listenerSetNewWord(word: String)
         fun listenerClearInput()
     }
-
 }

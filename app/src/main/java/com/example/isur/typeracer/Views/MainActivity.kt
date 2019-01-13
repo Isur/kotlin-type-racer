@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     override fun onAboutFragmentInteraction() {}
 
     override fun onGameFragmentInteraction(s: VIEWS) {
-        destroyFragment(gameFragment)
-        gameFragment = GameFragment.newInstance()
         when (s) {
             VIEWS.MENU -> changeFragment(menuFragment)
             VIEWS.SCORE -> changeFragment(scoreFragment)
@@ -70,13 +68,6 @@ class MainActivity : AppCompatActivity(), IMainActivity,
             .replace(container.id, fragment)
             .addToBackStack(fragment.toString())
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
-    }
-
-    override fun destroyFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .remove(fragment)
             .commit()
     }
 
