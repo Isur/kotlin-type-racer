@@ -9,6 +9,7 @@ interface IGame : Runnable {
     var typingWord: String
     var points: Int
     var time: Int
+    var isFinished: Boolean
     val handler: Handler
     var timerRunning: Boolean
     val gameInteractor: GameInteractor
@@ -17,4 +18,5 @@ interface IGame : Runnable {
     fun compareWords(): Boolean
     fun incrementPoints()
     fun getWords()
+    fun restart(gameTime: Int)
 }
