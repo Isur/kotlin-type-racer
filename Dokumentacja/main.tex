@@ -145,14 +145,19 @@ tabsize=4,
 	        \item Model danych
 	        \item ''Dialog'' do przesyłania wyniku
 	        \item Logika gry
+	        \item Obsługa gry - start, koniec, reset
 	        \item Dokumentacja
 	    \end{itemize}
 	    \item Jurczyk Dominika \begin{itemize}
-	        \item 
+	        \item Porównywanie słów
+	        \item Teksty
+	        \item Obsługa zakończenia gry
 	    \end{itemize}
 	    \item Fikier Damian \begin{itemize}
 	        \item Obsługa API
 	        \item Obsługa JSON
+	        \item Model Danych
+	        \item Obsługa błędów połączenia
 	    \end{itemize}
 	\end{itemize}
 	\clearpage
@@ -186,15 +191,16 @@ tabsize=4,
 	\section{Implementacja}
 		\subsection{Podział projektu na pliki}
 		\begin{multicols}{2}
-\scalebox{0.9}[0.8]{
+\scalebox{0.7}[0.7]{
 			\begin{forest}
 				for tree={font=\sffamily, grow'=0,
     folder indent=.3em, folder icons}
     	[Main
     	    [.Model
     	        [.DataModels
-    	        [MockData.kt, is file]
+    	        [PostResponse.kt, is file]
     	        [ScoreList.kt, is file]
+    	        [ServerConnectionResponse.kt, is file]
     	        ]
     	        [.Interface
     	        [IAPI.kt, is file]
@@ -205,8 +211,14 @@ tabsize=4,
     	        [IScoreList.kt, is file]
     	        ]
     	        [.Repository
-    	        [API.kt, is file]
-    	        [MockAPI.kt, is file]
+    	        [TypeRacerApi.kt, is file]
+    	        ]
+    	        [.Utils
+    	            [.Network
+    	            [ConnectionInfo.kt, is file]
+    	            [ConnectivityInterceptor.kt, is file]
+    	            ]
+    	        [NoConnectionDialog, is file]
     	        ]
     	        [Game.kt, is file]
     	        [GameInteractor.kt, is file]
@@ -227,10 +239,11 @@ tabsize=4,
     	    [MainActivity.kt, is file]
     	    [VIEWS.kt, is file]
     	    ]
+    	    [TypeRacerAppliaction, is file]
     	]
 			\end{forest}
 			}
-\scalebox{0.9}[0.8]{
+\scalebox{0.7}[0.7]{
 			\begin{forest}
 				for tree={font=\sffamily, grow'=0,
                 folder indent=.3em, folder icons}
@@ -350,12 +363,6 @@ class ScoreList:IScoreList {
 }
 \end{lstlisting}
 
-\subsection{Schemat Modelu Obiektowego}
-			\begin{figure}[H]
-			\centering
-			\includegraphics[width=1.0\textwidth]{class_diagram}
-			\caption{Tu będzie schemat}
-			\end{figure}
 \subsection{API}
 Adres serwera: http://simple-type-racer.herokuapp.com/
 \begin{itemize}
