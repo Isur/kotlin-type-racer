@@ -38,7 +38,6 @@ class GameFragment : Fragment(), IGameBoard {
 
     override fun listenerStopGame() {
         game.isFinished = false
-        //hideKeyboard(view)
         showSubmitDialog()
     }
 
@@ -50,22 +49,21 @@ class GameFragment : Fragment(), IGameBoard {
         wordInput.text.clear()
     }
 
-    fun showKeyboard(view: View?) {
+    private fun showKeyboard(view: View?) {
         if (view!!.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-            imm.showSoftInput(view, 0);
+            imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+            imm.showSoftInput(view, 0)
         }
     }
 
-    fun hideKeyboard(view: View?) {
+    private fun hideKeyboard(view: View?) {
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
     }
 
     private fun init() {
         wordInput.requestFocus()
-        showKeyboard(wordInput)
 
         if (!::game.isInitialized) {
             presenter.getGame(gameTime)
@@ -129,6 +127,7 @@ class GameFragment : Fragment(), IGameBoard {
                 dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = true
                 dialog.getButton(Dialog.BUTTON_NEGATIVE).isEnabled = true
             }, 1000)
+        hideKeyboard(view)
     }
 
     override fun onAttach(context: Context) {
@@ -146,6 +145,7 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     override fun onResume() {
+        showKeyboard(wordInput)
         if(::game.isInitialized){
                 wordInput.setText("")
                 game.restart(gameTime)
