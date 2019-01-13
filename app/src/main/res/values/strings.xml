@@ -2,39 +2,17 @@
     <string name="app_name">TypeRacer</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- TODO: "Replace this text"-->
     <string name="about_text">
-        This is application created by…
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis mi ac facilisis cursus. Ut dapibus erat nec
-        auctor gravida. Duis tincidunt neque non commodo aliquam. Pellentesque vitae imperdiet magna. Pellentesque
-        faucibus in ipsum ac dignissim. Curabitur posuere dui vitae est volutpat, eu elementum quam convallis. Vivamus
-        nec sapien et purus cursus ultrices. Vestibulum ut convallis nunc. Phasellus eu eleifend libero. Integer metus
-        lacus, hendrerit id dolor quis, tristique pellentesque est. Nunc et pulvinar mauris, a euismod erat. Donec
-        cursus lacinia nulla, ut rutrum arcu vehicula nec. Maecenas vehicula, sapien ac euismod luctus, ex nisi
-        tristique dolor, id consectetur nunc magna non erat. Sed ac felis nec lorem fermentum congue. Ut in magna et sem
-        venenatis tempor. Ut aliquam maximus nisi.
+        This application is created by Artur Bednarczyk, Damian Fikier and Dominika Jurczyk.\nv.1.0.
     </string>
-    <!-- TODO: "Replace this text"-->
     <string name="help_text">
-        Click start to play…
-        In commodo tincidunt aliquet. Nam massa ex, maximus at diam quis, consequat sollicitudin sapien. Curabitur id
-        aliquet arcu. Praesent et imperdiet leo. Donec suscipit, mauris eget faucibus tempus, diam urna commodo orci,
-        vitae sollicitudin augue sem eu ante. Fusce lectus neque, sagittis in ultrices non, feugiat eget augue. Quisque
-        non blandit nulla, maximus pharetra dolor. Mauris quis purus diam. Aliquam nisi est, iaculis et leo ac, dapibus
-        aliquet dui. Mauris vehicula, mi sed placerat dignissim, ligula nisl bibendum tellus, nec malesuada est nisi a
-        ligula. Integer ac euismod lectus. Mauris blandit accumsan mauris non venenatis. Praesent lacinia nulla vitae
-        porttitor commodo. Integer porttitor orci sed hendrerit accumsan. Proin sed tellus et tortor lacinia placerat
-        non feugiat ante.
-
-        Ut vel dolor faucibus, laoreet eros et, tristique risus. Donec at gravida massa. Donec sit amet est ac mi
-        vestibulum consequat luctus quis nunc. Curabitur volutpat ex ac nisl lacinia iaculis. Donec varius pretium
-        ipsum, elementum porta quam tristique et. Etiam eu turpis interdum, hendrerit enim ut, commodo sapien. Aenean
-        nec tristique arcu. Nulla vitae nibh vel ipsum aliquet rutrum. Ut turpis arcu, accumsan quis consectetur quis,
-        rhoncus ut neque. Vestibulum vel dictum neque, quis aliquam sapien. Donec porttitor nisl sit amet metus
-        consequat ultrices. Aliquam nisl eros, maximus ut diam id, tristique tempor mi.
+        Click start to play.\nThe goal of the game is to type as many words as possible in 60 seconds.\nYou get 1 point for every word.\nTo add your score to the scoreboard, enter your name and click "Submit".\nQuiting the game before the time is up causes the end of the game.
     </string>
     <string name="yourScore">Your Score:</string>
     <string name="enterNickname">Enter your nickname if you want to submit your score:</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="noConnection">No connection</string>
+    <string name="areYouConnected">Make sure you are connected to the internet</string>
+    <string name="ok">OK</string>
 </resources>
