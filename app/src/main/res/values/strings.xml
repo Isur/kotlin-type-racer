@@ -15,4 +15,11 @@
     <string name="noConnection">No connection</string>
     <string name="areYouConnected">Make sure you are connected to the internet</string>
     <string name="ok">OK</string>
+    <string name="playButton">PLAY</string>
+    <string name="scoreButton">SCORE</string>
+    <string name="helpButton">HELP</string>
+    <string name="aboutButton">ABOUT</string>
+    <string name="exitButton">EXIT</string>
+    <string name="timePlaceholder">60</string>
+    <string name="wordPlaceholder">WORD</string>
 </resources>

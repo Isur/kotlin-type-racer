@@ -17,31 +17,31 @@
 
         <Button
                 android:id="@+id/playButton"
-                android:text="PLAY"
+                android:text="@string/playButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.Button"/>
         <Button
                 android:id="@+id/scoreButton"
-                android:text="SCORE"
+                android:text="@string/scoreButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.Button"/>
         <Button
                 android:id="@+id/helpButton"
-                android:text="HELP"
+                android:text="@string/helpButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.Button"/>
         <Button
                 android:id="@+id/aboutButton"
-                android:text="ABOUT"
+                android:text="@string/aboutButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.Button"/>
         <Button
                 android:id="@+id/exitButton"
-                android:text="EXIT"
+                android:text="@string/exitButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.Button"/>
