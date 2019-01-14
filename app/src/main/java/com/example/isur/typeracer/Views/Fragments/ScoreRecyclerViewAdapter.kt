@@ -35,8 +35,8 @@ class ScoreRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.position.toString()
-        holder.mContentView.text = item.nick
+        holder.mIdView.text = (position + 1).toString()
+        holder.mContentView.text = item.nickname
         holder.mScoreView.text = item.score.toString()
 
         with(holder.mView) {

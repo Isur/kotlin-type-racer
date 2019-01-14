@@ -1,13 +1,19 @@
 package com.example.isur.typeracer.Views
 
-import android.net.Uri
-import android.support.v7.app.AppCompatActivity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.example.isur.typeracer.Model.DataModels.ScoreList
+import com.example.isur.typeracer.Model.Utils.Network.ConnectionInfo
+import com.example.isur.typeracer.Model.Utils.NoConnectionDialog
 import com.example.isur.typeracer.R
 import com.example.isur.typeracer.Views.Fragments.*
 import com.example.isur.typeracer.Views.Interface.IMainActivity
@@ -26,12 +32,20 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     private lateinit var helpFragment: HelpFragment
     private lateinit var aboutFragment: AboutFragment
     private lateinit var menuFragment: MenuFragment
+    private lateinit var connectionReceiver: BroadcastReceiver
 
-    override fun onHelpFragmentInteraction() {
+    override fun onHelpFragmentInteraction() {}
+
+    override fun onAboutFragmentInteraction() {}
+
+    override fun onGameFragmentInteraction(s: VIEWS) {
+        when (s) {
+            VIEWS.MENU -> changeFragment(menuFragment)
+            VIEWS.SCORE -> changeFragment(scoreFragment)
+        }
     }
 
-    override fun onAboutFragmentInteraction() {
-    }
+    override fun onListFragmentInteraction(item: ScoreList.Score?) {}
 
     override fun onMenuFragmentInteraction(s: VIEWS) {
         when (s) {
@@ -44,22 +58,15 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         }
     }
 
-    override fun onListFragmentInteraction(item: ScoreList.Score?) {
-    }
-
-    override fun onGameFragmentInteraction() {
-
-    }
-
     override fun exitGame() {
         exitProcess(-1)
     }
 
-    override fun changeFragment(frag: Fragment) {
+    override fun changeFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(container.id, frag)
-            .addToBackStack(frag.toString())
+            .replace(container.id, fragment)
+            .addToBackStack(fragment.toString())
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
@@ -84,14 +91,42 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        loadingBar.visibility = View.VISIBLE
         gameFragment = GameFragment.newInstance()
         scoreFragment = ScoreFragment.newInstance(1)
         helpFragment = HelpFragment.newInstance()
         aboutFragment = AboutFragment.newInstance()
         menuFragment = MenuFragment.newInstance()
-
-        changeFragment(menuFragment)
+        val serverOK = ConnectionInfo.checkServerStatus()
+        if (serverOK) {
+            changeFragment(menuFragment)
+            loadingBar.visibility = View.INVISIBLE
+        } else NoConnectionDialog.show(this@MainActivity) { exitGame() }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val intentFilter = IntentFilter(ConnectionInfo.CONNECTION_ACTION)
+        connectionReceiver = object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                ConstLayout.visibility = View.INVISIBLE
+                NoConnectionDialog.show(this@MainActivity) { restartActivity() }
+                ConstLayout.visibility = View.VISIBLE
+            }
+        }
+        registerReceiver(connectionReceiver, intentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(connectionReceiver)
+    }
+
+    private fun restartActivity() {
+        val i = Intent(this, MainActivity::class.java)
+        startActivity(i)
+        finish()
+    }
+
 
 }

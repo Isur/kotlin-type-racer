@@ -5,7 +5,7 @@ import com.example.isur.typeracer.Model.Interface.IScoreInteractor
 import com.example.isur.typeracer.Views.Interface.IScoreBoard
 
 class ScorePresenter(val view: IScoreBoard, val interactor: IScoreInteractor) {
-    fun getScores():ScoreList{
-        return interactor.getScores()
+    fun getScores(limit: Int): List<ScoreList.Score> {
+        return interactor.getScores(limit)
     }
 }

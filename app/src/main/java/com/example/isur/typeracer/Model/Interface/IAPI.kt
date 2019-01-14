@@ -4,7 +4,7 @@ import com.example.isur.typeracer.Model.DataModels.ScoreList
 
 interface IAPI {
     fun getWord():String
-    fun getWords():Array<String>
-    fun getScores():ScoreList
-    fun postScore(nickname: String, score: Int)
+    fun getWords(): String
+    fun getScores(): String
+    fun postScore(jsonString: String)
 }
