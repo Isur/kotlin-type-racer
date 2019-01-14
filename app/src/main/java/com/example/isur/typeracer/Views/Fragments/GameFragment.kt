@@ -30,7 +30,7 @@ class GameFragment : Fragment(), IGameBoard {
     override lateinit var wordInput: EditText
     override lateinit var timer: TextView
     override lateinit var game: Game
-    private val gameTime = 20
+    private val gameTime = 60
 
     override fun listenerSetTime(time: String) {
         timer.text = time
