@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
@@ -91,7 +92,9 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         loadingBar.visibility = View.VISIBLE
+        txt_loading.visibility = View.VISIBLE
         gameFragment = GameFragment.newInstance()
         scoreFragment = ScoreFragment.newInstance(1)
         helpFragment = HelpFragment.newInstance()
@@ -101,7 +104,11 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         if (serverOK) {
             changeFragment(menuFragment)
             loadingBar.visibility = View.INVISIBLE
-        } else NoConnectionDialog.show(this@MainActivity) { exitGame() }
+
+            txt_loading.visibility = View.INVISIBLE
+        } else NoConnectionDialog.show(this@MainActivity) {
+            //goToWifiSettings()
+            exitGame() }
     }
 
     override fun onResume() {
@@ -109,9 +116,15 @@ class MainActivity : AppCompatActivity(), IMainActivity,
         val intentFilter = IntentFilter(ConnectionInfo.CONNECTION_ACTION)
         connectionReceiver = object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, p1: Intent?) {
-                ConstLayout.visibility = View.INVISIBLE
-                NoConnectionDialog.show(this@MainActivity) { restartActivity() }
-                ConstLayout.visibility = View.VISIBLE
+                loadingBar.visibility = View.VISIBLE
+                txt_loading.visibility = View.VISIBLE
+                NoConnectionDialog.show(this@MainActivity) {
+                     //restartActivity()
+                    //exitGame()
+                    goToWifiSettings()}
+                loadingBar.visibility = View.INVISIBLE
+
+                txt_loading.visibility = View.INVISIBLE
             }
         }
         registerReceiver(connectionReceiver, intentFilter)
@@ -124,6 +137,11 @@ class MainActivity : AppCompatActivity(), IMainActivity,
 
     private fun restartActivity() {
         val i = Intent(this, MainActivity::class.java)
+        startActivity(i)
+        finish()
+    }
+    private fun goToWifiSettings(){
+        val i = Intent( Settings.ACTION_WIFI_SETTINGS)
         startActivity(i)
         finish()
     }
