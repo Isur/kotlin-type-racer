@@ -30,7 +30,7 @@ class GameFragment : Fragment(), IGameBoard {
     override lateinit var wordInput: EditText
     override lateinit var timer: TextView
     override lateinit var game: Game
-    private val gameTime = 60
+    private val gameTime = 10
 
     override fun listenerSetTime(time: String) {
         timer.text = time
@@ -115,6 +115,7 @@ class GameFragment : Fragment(), IGameBoard {
                     listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
                 }
                 setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                    presenter.postScore("anon", game.points)
                     listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
                 }
             }

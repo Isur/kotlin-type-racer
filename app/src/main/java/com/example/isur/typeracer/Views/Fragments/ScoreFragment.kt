@@ -46,7 +46,7 @@ class ScoreFragment : Fragment(), IScoreBoard {
                 }
                 try {
 
-                adapter = ScoreRecyclerViewAdapter(presenter.getScores(10), listener)
+                adapter = ScoreRecyclerViewAdapter(presenter.getScores(7), listener)
                 }catch (ex:NoConnectivityException){
                     ConnectionInfo.sendNoConnection(context!!.applicationContext)
                 }

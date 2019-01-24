@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -59,7 +60,20 @@ class MainActivity : AppCompatActivity(), IMainActivity,
     }
 
     override fun exitGame() {
-        exitProcess(-1)
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.run {
+            setTitle( "EXIT")
+            setMessage("You sure?")
+            setPositiveButton(getString(R.string.submit)) { _, _ ->
+                exitProcess(-1)
+            }
+            setNegativeButton(getString(R.string.cancel)) { _, _ ->
+
+            }
+        }
+        val dialog = dialogBuilder.create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
     }
 
     override fun changeFragment(fragment: Fragment) {

@@ -58,7 +58,9 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun incrementPoints() {
-        points++
+        points += 10
+        time += 2
+        timeText = time.toString()
     }
 
     override fun getWords() {
