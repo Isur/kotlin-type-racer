@@ -54,7 +54,14 @@ class Game(override var time: Int, context: IGameBoard) : IGame {
     }
 
     override fun compareWords(): Boolean {
-        return typingWord.toLowerCase() == currentWord.toLowerCase()
+        /*oryginalna wersja*/
+        //return typingWord.toLowerCase() == currentWord.toLowerCase()
+
+        /*2 konfiguracyjne*/
+        //return typingWord == currentWord
+
+        /*1 funkcjonalnosc*/
+        return typingWord == currentWord.reversed()
     }
 
     override fun incrementPoints() {

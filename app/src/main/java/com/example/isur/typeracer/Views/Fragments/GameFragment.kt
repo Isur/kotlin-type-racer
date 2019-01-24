@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.isur.typeracer.Model.Game
@@ -22,6 +24,10 @@ import com.example.isur.typeracer.Views.Interface.IGameBoard
 import com.example.isur.typeracer.Views.VIEWS
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_game.view.*
+import android.widget.Toast
+import android.content.DialogInterface
+
+
 
 class GameFragment : Fragment(), IGameBoard {
     private var listenerGame: OnGameFragmentInteractionListener? = null
@@ -95,6 +101,18 @@ class GameFragment : Fragment(), IGameBoard {
         wordInput = view.wordInput
         timer = view.timeTextView
 
+        /*2 funkcjonalnosc*/
+        val button = view.findViewById(R.id.buttonPause) as Button
+        button.setOnClickListener{v ->
+            if(game.timerRunning){
+                game.timerRunning = false
+            }else{
+                game.timerRunning = true
+                game.run()
+            }
+        }
+        /*koniec 2 funkcjonalnosci xD*/
+
         presenter = GamePresenter(this, GameInteractor())
         init()
         return view
@@ -104,9 +122,9 @@ class GameFragment : Fragment(), IGameBoard {
         val dialogBuilder = AlertDialog.Builder(this.view!!.context)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.custom_dialog, null)
-        dialogBuilder.setView(dialogView)
 
         val editText = dialogView.editTextName
+
             dialogBuilder.run {
                 setTitle( getString(R.string.yourScore)+ " ${game.points} ")
                 setMessage(getString(R.string.enterNickname))
@@ -115,7 +133,9 @@ class GameFragment : Fragment(), IGameBoard {
                     listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
                 }
                 setNegativeButton(getString(R.string.cancel)) { _, _ ->
-                    listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
+                    /*3 konfiguracyjne*/
+                    //listenerGame?.onGameFragmentInteraction(VIEWS.MENU)
+                    listenerGame?.onGameFragmentInteraction(VIEWS.SCORE)
                 }
             }
             val dialog = dialogBuilder.create()
@@ -145,7 +165,8 @@ class GameFragment : Fragment(), IGameBoard {
     }
 
     override fun onResume() {
-        showKeyboard(wordInput)
+        /*1-konfiguracyjne*/
+        //showKeyboard(wordInput)
         if(::game.isInitialized){
                 wordInput.setText("")
                 game.restart(gameTime)
@@ -153,7 +174,8 @@ class GameFragment : Fragment(), IGameBoard {
         super.onResume()
     }
     override fun onPause() {
-        hideKeyboard(view)
+        /*1 konfiguracyjne*/
+        //hideKeyboard(view)
         if(::game.isInitialized){
             if(game.timerRunning){
                 game.stopGame()
